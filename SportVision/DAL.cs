@@ -27,19 +27,21 @@ namespace SportVision
             try
             {
                 con.Open();
-                com.CommandText = $"SELECT * FROM FinalProject_Kasem_UsersTB WHERE Email = '{email}' AND Facebook_ID = '{id}'";
+                com.CommandText = $"SELECT * FROM FinalProject_Kasem_UsersTB WHERE Email = '{email}'";
                 reader = com.ExecuteReader();
                 if (reader.Read())
                 {
                     User user = new User()
                     {
                         UserID = int.Parse(reader["User_ID"].ToString()),
-                        FacebookID = id,
-                        Username = username,
+                        FacebookID = reader["Facebook_ID"] == DBNull.Value ? null : reader["Facebook_ID"].ToString(),
+                        Username = reader["Username"].ToString(),
                         Email = email,
-                        ImageURL = reader["ProfilePIC"].ToString()
+                        PhotoName = reader["ProfilePIC"] == DBNull.Value ? null : reader["ProfilePIC"].ToString(),
+                        Password = reader["Password"] == DBNull.Value ? null : reader["password"].ToString()
                     };
                     reader.Close();
+                   
                     return user;
                 }
                 else
@@ -51,7 +53,7 @@ namespace SportVision
                         FacebookID = id,
                         Username = username,
                         Email = email,
-                        ImageURL = imageURL
+                        PhotoName = imageURL
                     };
 
                     
@@ -64,9 +66,9 @@ namespace SportVision
                     com.Parameters.Add("param1", SqlDbType.NVarChar).Value=user.Username;
                     com.Parameters.Add("param2", SqlDbType.VarChar).Value=user.Email;
                     com.Parameters.Add("param3", SqlDbType.VarChar).Value=user.FacebookID;
-                    com.Parameters.Add("param4", SqlDbType.VarChar).Value = user.ImageURL;
+                    com.Parameters.Add("param4", SqlDbType.VarChar).Value = user.PhotoName;
                     int result = com.ExecuteNonQuery();
-                    if (result != 1)
+                    if (result > 0)
                         throw new Exception("Something went wrong");
 
                     com.CommandText = $"SELECT * FROM FinalProject_Kasem_UsersTB WHERE Email = '{email}' AND Facebook_ID = '{id}'";
@@ -109,17 +111,18 @@ namespace SportVision
             try
             {
                 con.Open();
-                com.CommandText = $"SELECT * FROM FinalProject_Kasem_UsersTB WHERE Email = '{email}' AND Google_ID = '{id}'";
+                com.CommandText = $"SELECT * FROM FinalProject_Kasem_UsersTB WHERE Email = '{email}'";
                 reader = com.ExecuteReader();
                 if (reader.Read())
                 {
                     User user = new User()
                     {
                         UserID = int.Parse(reader["User_ID"].ToString()),
-                        GoogleID = id,
-                        Username = username,
+                        GoogleID = reader["Google_ID"] == DBNull.Value ? null : reader["Google_ID"].ToString(),
+                        Username = reader["Username"].ToString(),
                         Email = email,
-                        ImageURL = reader["ProfilePIC"].ToString()
+                        PhotoName = reader["ProfilePIC"] == DBNull.Value ? null : reader["ProfilePIC"].ToString(),
+                        Password = reader["Password"] == DBNull.Value ? null : reader["password"].ToString()
                     };
                     reader.Close();
                     return user;
@@ -133,7 +136,7 @@ namespace SportVision
                         GoogleID = id,
                         Username = username,
                         Email = email,
-                        ImageURL = imageURL
+                        PhotoName = imageURL
                     };
 
 
@@ -146,9 +149,9 @@ namespace SportVision
                     com.Parameters.Add("param1", SqlDbType.NVarChar).Value = user.Username;
                     com.Parameters.Add("param2", SqlDbType.VarChar).Value = user.Email;
                     com.Parameters.Add("param3", SqlDbType.VarChar).Value = user.GoogleID;
-                    com.Parameters.Add("param4", SqlDbType.VarChar).Value = user.ImageURL;
+                    com.Parameters.Add("param4", SqlDbType.VarChar).Value = user.PhotoName;
                     int result = com.ExecuteNonQuery();
-                    if (result != 1)
+                    if (result > 0)
                         throw new Exception("Something went wrong");
 
                     com.CommandText = $"SELECT * FROM FinalProject_Kasem_UsersTB WHERE Email = '{email}' AND Facebook_ID = '{id}'";

@@ -13,6 +13,7 @@ namespace SportVision
         public string FacebookID { get; set; }
         public string GoogleID { get; set; }
         public string Username { get; set; }
+        public string Password { get; set; }
         public string Email
         {
             get
@@ -31,7 +32,7 @@ namespace SportVision
         public int Points { get; set; }
         public bool IsInMatch { get; set; }
         public int MatchID { get; set; }
-        public string ImageURL { get; set; }
+        public string PhotoName { get; set; }
 
         private bool IsValid(string emailaddress)
         {
